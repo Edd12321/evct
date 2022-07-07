@@ -14,9 +14,13 @@
 	"init.cpp"
 	"editor.cpp"
 
+1657198598 p"
+
 1656723358 d:\@home\edward\.dots\work\evct\global.hpp
 	<string>
 	<vector>
+
+1656723358 
 
 1657200150 d:\@home\edward\.dots\work\evct\init.cpp
 	"global.hpp"
@@ -24,7 +28,47 @@
 	<iostream>
 	<sys/ioctl.h>
 
+1657200150 .h>
+
 1657220663 d:\@home\edward\.dots\work\evct\editor.cpp
+	<fstream>
+	<iomanip>
+	<iostream>
+	<string>
+	<unordered_map>
+	<vector>
+	"global.hpp"
+	<conio.h>
+	<termios.h>
+
+1657220663 >
+
+1657198598 source:/home/edward/.dots/work/evct/main.cpp
+	<fstream>
+	<iomanip>
+	<iostream>
+	<istream>
+	<string>
+	<vector>
+	<unistd.h>
+	<conio.h>
+	<Windows.h>
+	<limits.h>
+	"global.hpp"
+	"init.cpp"
+	"editor.cpp"
+
+1656723358 /home/edward/.dots/work/evct/global.hpp
+	<string>
+	<vector>
+
+1657233632 /home/edward/.dots/work/evct/init.cpp
+	"global.hpp"
+	<Windows.h>
+	<iostream>
+	<sys/ioctl.h>
+
+1657220663 /home/edward/.dots/work/evct/editor.cpp
 	<fstream>
 	<iomanip>
 	<iostream>
