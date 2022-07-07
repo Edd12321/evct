@@ -112,9 +112,9 @@ display_buffer(void)
 		/** is it less than the buffer height? **/
 		if (i < hi) {
 			/* Show line numbers */
-			if (smodes["linum"]) {
+			if (smodes["linum"])
 				cout << $LINUM << setw(5) << i+1 << $RESET << ' ';
-			}
+
 			/* line length */
 			ll oo = buffer[i].length();
 			ll oo_copy = oo;
@@ -125,11 +125,10 @@ display_buffer(void)
 			}
 			/** print line **/
 			for (int j = 0; j < oo_copy; ++j) {
-				if ($IS_SELECTED) {
+				if ($IS_SELECTED)
 					cout << $REVERSE << buffer[i][j] << $RESET;
-				} else {
+				else
 					cout << buffer[i][j];
-				}
 			}
 		}
 		/* empty lines marked by a sign */

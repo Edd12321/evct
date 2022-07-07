@@ -23,6 +23,23 @@ Below, you can see a list of all currently supported commands:
 |------------------|-------------------------------|
 |:set linum        | Enables/disables line numbers |
 
+# Installation guide
+
+## *NIX (Text-mode & GUI)
+Clone the repo, and compile main.cpp. Install the `tk` package via `pip`. You can now run both the GUI and the text-only version of evct.
+
+## Win32/Text-mode
+Clone the repo, and compile main.cpp. You will have a binary that already works out of the box.
+
+## Win32/GUI
+If you want to be able to use the GUI, install [cygwin](https://www.cygwin.com).
+
+Open Cygwin, and install all packages necessary for running python/compiling C++ (but make sure you're using the Cygwin version of GCC, not any other compiler/MinGW GCC).
+
+Add Cygwin to your %PATH% environment variable, so that its commands will be recognized by Windows.
+
+Now, if you're using an IDE there's one extra step: change your compiler to "Cygwin GCC". You can now run the GUI via the `launch_gui.bat` script.
+
 # Issues
 * On Windows, evct flickers a lot
 * Also on Windows, you have to exit insert mode to use the arrow keys
