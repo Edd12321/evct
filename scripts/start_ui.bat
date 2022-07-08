@@ -14,5 +14,5 @@ if exist bin/Release (
 
 setlocal
 path=C:\cygwin;C:\cygwin64;%path%
-sh -c "export DISPLAY=:0 && ./%filename%"
+start sh -c "export DISPLAY=:0 && ./%filename% --x11dp :0"
 endlocal

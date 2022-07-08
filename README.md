@@ -3,6 +3,9 @@ This is a modal terminal text editor, written in pure C++. That means it doesn't
 
 "evct" stands for Edd's Very Cool Texteditor. No particular reason for choosing that name, it just sounded nice. It's a modal text editor that supports "primary modes" (INSERT, VISUAL, NORMAL) and "secondary modes" (which I plan to add as plug-ins in the near future).
 
+# Screenshots
+![evct running in its native tkinter UI](img/screen1.png)
+
 # How?
 I wrote all the important subroutines in `editor.cpp`. This is where most of the TUI magic happens. What all the code really boils down to is just some ANSI/VT100 escape sequences and a little bit of creativity.
 
@@ -36,7 +39,11 @@ If you want to be able to use the GUI, install [cygwin](https://www.cygwin.com).
 
 Open Cygwin, and install all packages necessary for running python/compiling C++ (but make sure you're using the Cygwin version of GCC, not any other compiler/MinGW GCC).
 
+Install *xorg-x11-fonts-misc* (very important, fixes tabs)
+
 Add Cygwin to your %PATH% environment variable, so that its commands will be recognized by Windows.
+
+Press Win+R, then type "shell:startup" and hit enter. Open your start menu and you'll find Cygwin's XLaunch. Create a config with "multiple" windows and save it in the aforementioned shell:startup directory (make sure the file association is correct so that it opens X11 by default!) Now, X11 will start by default when you log in.
 
 Now, if you're using an IDE there's one extra step: change your compiler to "Cygwin GCC". You can now run the GUI via the `launch_gui.bat` script.
 

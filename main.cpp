@@ -93,7 +93,7 @@ main(int argc, char *argv[]) {
 	filename = argv[1];
 	/** MAIN-LOOP **/
 
-	load_conf(argv[0]);       // editor.cpp
+	load_conf(argv[0]);   // editor.cpp
 	for ever {
 		init_vars();      // init.cpp
 		rows -= 2;

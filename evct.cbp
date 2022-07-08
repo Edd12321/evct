@@ -13,6 +13,7 @@
 				<Option compiler="cygwin" />
 				<Option parameters="test.txt" />
 				<Compiler>
+					<Add option="-std=c11" />
 					<Add option="-g" />
 				</Compiler>
 				<ExtraCommands>
@@ -28,6 +29,7 @@
 				<Option parameters="test.txt" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-std=c11" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
