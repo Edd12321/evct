@@ -15,6 +15,7 @@
 #include <vector>
 
 extern "C" {
+  #include <stdlib.h>
   #include <unistd.h>
 }
 #if defined(_WIN32)
@@ -29,6 +30,12 @@ extern "C" {
 #include "editor.cpp"
 
 #define ever (;;)
+
+/** global arg **/
+int    argc;
+char **argv;
+
+//char *argv[];
 
 /** plot twist **/
 using namespace std;
@@ -54,7 +61,7 @@ stream2buf(istream& in)
 static inline void
 usage(void)
 {
-	cerr << "SYNOPSIS: evct[file]\n";
+	cerr << "SYNOPSIS: "<<argv[0]<<"[file]\n";
 	exit(EXIT_FAILURE);
 }
 
@@ -66,6 +73,10 @@ cls(void)
 
 int
 main(int argc, char *argv[]) {
+	/* use global arg instead */
+	::argc = argc;
+	::argv = argv;
+
 	ios_base::sync_with_stdio(false);
 #if defined(_WIN32)
 	  /** performance on win-based oses **/
