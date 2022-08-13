@@ -4,13 +4,13 @@
 	<Project>
 		<Option title="evct" />
 		<Option pch_mode="2" />
-		<Option compiler="cygwin" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/evct" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="cygwin" />
+				<Option compiler="gcc" />
 				<Option parameters="test.txt" />
 				<Compiler>
 					<Add option="-std=c11" />
@@ -25,7 +25,7 @@
 				<Option output="bin/Release/evct" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="cygwin" />
+				<Option compiler="gcc" />
 				<Option parameters="test.txt" />
 				<Compiler>
 					<Add option="-O2" />

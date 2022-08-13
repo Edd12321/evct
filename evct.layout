@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
-	<ActiveTarget name="Release" />
-	<File name="gui.py" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
+	<ActiveTarget name="Debug" />
+	<File name="gui.py" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="362" topLine="0" />
+			<Cursor1 position="362" topLine="60" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="evct.conf" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1501" topLine="68" />
+			<Cursor1 position="68" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="README.md" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="editor.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1773" topLine="8" />
+			<Cursor1 position="8700" topLine="201" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="791" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="README.md" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1328" topLine="6" />
 		</Cursor>
 	</File>
 	<File name="init.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -22,9 +32,9 @@
 			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="editor.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+	<File name="global.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="6" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="7778" topLine="182" />
+			<Cursor1 position="796" topLine="24" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

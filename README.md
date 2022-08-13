@@ -19,6 +19,7 @@ Below, you can see a list of all currently supported commands:
 | :q!     | Quits the program without saving         |
 | I (i)   | Enters -- INSERT -- pmode                |
 | V (v)   | Enters -- VISUAL -- pmode                |
+| X (x)   | Deletes the currently selected char      |
 | Esc     | Enters -- NORMAL -- pmode                |
 | arrows  | Navigate around the opened buffer        |
 | :set    | Sets a variable/smode to 1 / 0           |
@@ -26,6 +27,7 @@ Below, you can see a list of all currently supported commands:
 | Env variable     | What it does                  |
 |------------------|-------------------------------|
 |:set linum        | Enables/disables line numbers |
+|:set syn          | Enables/disables highlighting |
 
 ## Installation guide
 

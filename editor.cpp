@@ -30,33 +30,33 @@
 #define $IS_SELECTED i == y_pos && j == x_pos
 
 #define $GO_UP() {              \
-	if (y_pos) {            \
-	       	--y_pos,        \
-	       	--y_lim;        \
+        if (y_pos) {            \
+                --y_pos,        \
+                --y_lim;        \
        	}                       \
-	if (y_lim < 0)          \
-       		y_lim = 0;      \
+        if (y_lim < 0)          \
+                y_lim = 0;      \
        	if (!y_lim && y_scr)    \
-       		--y_scr;        \
+                --y_scr;        \
 }
 
 #define $GO_DOWN() {            \
-	++y_pos,                \
-	++y_lim;                \
+        ++y_pos,                \
+	    ++y_lim;                \
        	if (y_lim > rows)       \
-		y_lim = rows;   \
+                y_lim = rows;   \
        	if (y_lim == rows)      \
-       		++y_scr;        \
+       	        ++y_scr;        \
 }
 
 #define $GO_RIGHT() {           \
        	if (x_pos < x_len)      \
-       		++x_pos;        \
+                ++x_pos;        \
 }
 
 #define $GO_LEFT()  {           \
        	if (x_pos)              \
-       		--x_pos;        \
+                --x_pos;        \
 }
 
 /* getch() */
@@ -107,11 +107,10 @@ extern inline void
 display_buffer(void)
 {
 	ll rows_copy = rows+y_scr;
-	ll hi = buffer.size();
 
 	for (ll i = y_scr; i < rows_copy; ++i) {
 		/** is it less than the buffer height? **/
-		if (i < hi) {
+		if (i < lines) {
 			/* Show line numbers */
 			if (smodes["linum"])
 				cout << $LINUM << setw(5) << i+1 << $RESET << ' ';
@@ -126,14 +125,15 @@ display_buffer(void)
 			}
 			/** print line **/
 			for (int j = 0; j < oo_copy; ++j) {
+				if (smodes["syn"])
+					cout << highlighter_hashtable[syntax[i][j]];
 				if ($IS_SELECTED)
-					cout << $REVERSE << buffer[i][j] << $RESET;
-				else
-					cout << buffer[i][j];
+					cout << $REVERSE;
+				cout << buffer[i][j] << $RESET;
 			}
 		}
 		/* empty lines marked by a sign */
-		if (i >= hi || !buffer[i].length()) {
+		if (i >= lines || !buffer[i].length()) {
 			if (i == y_pos) {
 				cout << $REVERSE; /* cursor */
 			}
@@ -214,54 +214,111 @@ input(void)
 
 	/** read char and parse **/
 	keypress = getch();
+
+	 /***************************/
+	 /** CALCULATE LINE LENGTH **/
+	 /***************************/
+	ll clen = buffer[y_pos].length();
+
+	/* check editor modes */
 	switch(state) {
 	case NORMAL:
 		if (tolower(keypress) == 'i') {
+			 /***************************/
+			 /** SWITCH TO INSERT MODE **/
+			 /***************************/
 			state = State::INSERT;
 		} else if (tolower(keypress) == 'v') {
+			 /***************************/
+			 /** SWITCH TO VISUAL MODE **/
+			 /***************************/
 			state = State::VISUAL;
 		} else if (keypress == ':') {
-			string command;
-			getline(cin, command, '\n');
-
+			 /*************************/
+			 /** ACTIVATE COMMANDLNE **/
+			 /*************************/
+			string command; getline(cin, command, '\n');
 			interpret(command);
+		} else if (tolower(keypress) == 'x') {
+			 /****************/
+			 /** ERASE CHAR **/
+			 /****************/
+			if (clen) {
+				buffer[y_pos].erase(x_pos, 1);
+				syntax_highlight(y_pos,y_pos);
+			}
 		}
 		break;
 	case INSERT:
 		if (keypress != $KEY_ESC) {
 			/** avoid getting out of bounds **/
-			if (!buffer[y_pos].length())
+			if (!clen)
 				buffer[y_pos] = " ";
-			if (keypress == $KEY_BACKSPACE || keypress == $KEY_ALTBSPACE) {
+			if (keypress == $KEY_BACKSPACE
+			 || keypress == $KEY_ALTBSPACE) {
+			 	 /***************************/
+			 	 /** BACKSPACE KEY SUPPORT **/
+			 	 /***************************/
 				if (x_pos) {
 					/* regular deletion */
 					buffer[y_pos].erase(x_pos-1, 1);
 					--x_pos;
+
+					/*** HIGHLIGHT #1 ***/
+					syntax[y_pos].pop_back();
+					syntax_highlight(y_pos, y_pos);
+
 				} else if (y_pos) {
 					/* merging two lines */
 					x_pos = buffer[y_pos-1].length(); /* set new x_pos */
+					buffer[y_pos-1].insert(x_pos, buffer[y_pos]);
 
-					buffer[y_pos-1].insert(buffer[y_pos-1].length(), buffer[y_pos]);
-					buffer.erase(buffer.begin()+y_pos);
+					/* "remove" duplicate line */
+					buffer.erase(buffer.begin()+y_pos--);
 
-					--y_pos;
+					/*** HIGHLIGHT #2 ***/
+					syntax.pop_back();
+					syntax_highlight(y_pos, --lines);
 				}
 			} else if (keypress == $KEY_RETURN) {
-				/* return key support */
-				string before_enter = buffer[y_pos].substr(0, x_pos);
-				string after_enter = buffer[y_pos].substr(x_pos, buffer[y_pos].length());
+				 /************************/
+				 /** RETURN KEY SUPPORT **/
+				 /************************/
+				auto beg =  buffer.begin();
 
-				buffer[y_pos] = before_enter;
-				buffer.insert(buffer.begin()+y_pos+1, after_enter);
+				if (!clen) {
+					buffer.insert(beg+y_pos, "");
+				} else {
+					/* separate line */
+					string before_enter = buffer[y_pos].substr(    0, x_pos),
+					        after_enter = buffer[y_pos].substr(x_pos,  clen);
+
+					/* insert everything after the cursor */
+					buffer[y_pos] = before_enter;
+					buffer.insert(beg+y_pos+1,after_enter);
+				}
+				/*** HIGHLIGHT #3 ***/
+				syntax.emplace_back("");
+				syntax_highlight(y_pos, lines++);
 
 				/* goto next line */
 				++y_pos;
 				x_pos = 0;
 			} else {
-				/* trademark Ed overcomplication */
-				string str = "";
-				str += keypress;
-				buffer[y_pos].insert(x_pos, str);
+				/*****************************/
+				/** REGULAR KEYBOARD TYPING **/
+				/*****************************/
+				if (clen < 1) {
+					buffer[y_pos][0] = keypress;
+				} else {
+					/* trademark Ed overcomplication */
+					string str = "";
+					str += keypress;
+					buffer[y_pos].insert(x_pos, str);
+				}
+				/*** HIGHLIGHT #4 ***/
+				syntax[y_pos]+=' ';
+				syntax_highlight(y_pos, y_pos);
 
 				++x_pos;
 			}
@@ -296,8 +353,8 @@ input(void)
 	if (keypress == $KEY_ESC)
 		state = State::NORMAL;
 #else
-        /** Arrow key format: \033[X, where X is A, B, C or D **/
-        if (keypress == $KEY_ESC) {
+	/** Arrow key format: \033[X, where X is A, B, C or D **/
+	if (keypress == $KEY_ESC) {
 		if (getch() == '[') {
 			switch(getch()) {
 			case 'A':
@@ -332,11 +389,9 @@ input(void)
 inline void
 interpret(string str)
 {
-	ll hi = buffer.size();
-
 	if (str == ":w" || str == ":wq") {
 		ofstream fout(filename.c_str());
-		for (ll i = 0; i < hi; ++i)
+		for (ll i = 0; i < lines; ++i)
 			fout << buffer[i] << '\n';
 	}
 
@@ -367,9 +422,12 @@ interpret(string str)
 inline void
 fix_cursor(void)
 {
+	ll len = buffer[y_pos].length()-1;
 	/* cursor is still in buffer and outside of line length */
-	if (y_pos < rows-1 && x_pos > buffer[y_pos].length()-1)
-		x_pos = buffer[y_pos].length()-1;
+	if (y_pos < rows-1 && x_pos > len)
+		x_pos = len;
+	else if (x_pos < 0)
+		x_pos = 0;
 }
 
 
@@ -382,11 +440,11 @@ fix_cursor(void)
 string
 get_file_path(char *argv0)
 {
-        /* get name of exec dir */
+	/* get name of exec dir */
 #if defined(_WIN32)
-	  char separator = '\\';
+	char separator = '\\';
 #else
-	  char separator = '/';
+	char separator = '/';
 #endif
 
 	string new_argv0(argv0);

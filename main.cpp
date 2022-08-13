@@ -29,7 +29,9 @@ extern "C" {
 #include "init.cpp"
 #include "editor.cpp"
 
+/***** MACRO BEGIN *****/
 #define ever (;;)
+/***** MACRO END *****/
 
 /** global arg **/
 int    argc;
@@ -42,10 +44,13 @@ using namespace std;
 
 /** global vars begin **/
 string filename;
+
 vector<string> buffer;
+vector<string> syntax;
 
 ll rows;
 ll columns;
+ll lines;
 /** global vars end **/
 
 static inline vector<string>
@@ -53,8 +58,11 @@ stream2buf(istream& in)
 {
 	string tmp;
 	vector<string> vec;
-	while (getline(in, tmp))
+	while (getline(in, tmp)) {
+		/* add to buffer */
 		vec.emplace_back(tmp);
+		++lines;
+	}
 	return vec;
 }
 
@@ -98,8 +106,13 @@ main(int argc, char *argv[]) {
 	}
 
 	/* init textbuffer */
-	ifstream fin(argv[1]);
-	buffer = stream2buf(fin);
+	ifstream      fin(argv[1]);
+	buffer      = stream2buf(fin);
+	ll buf_len  = buffer.size();
+
+	/* init highlighting */
+	syntax = buffer;
+	syntax_highlight(0, buf_len-1);
 
 	filename = argv[1];
 	/** MAIN-LOOP **/
