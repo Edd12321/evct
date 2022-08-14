@@ -122,12 +122,15 @@ main(int argc, char *argv[]) {
 		init_vars();      // init.cpp
 		rows -= 2;
 
+
 		display_buffer(); // editor.cpp
 		statusbar();      // editor.cpp
 		cout << flush;
 
-		input();          // editor.cpp
-		fix_cursor();     // editor.cpp
+		fix_cursor();    //editor.cpp
+		input();          //-"-
+		fix_cursor();     //-"-
+
 		cls();            // editor.cpp
 	}
 

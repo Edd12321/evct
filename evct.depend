@@ -107,7 +107,7 @@
 	<conio.h>
 	<termios.h>
 
-1660408578 source:/home/edward/.dots/work/etc/evct.git/main.cpp
+1660490500 source:/home/edward/.dots/work/etc/evct.git/main.cpp
 	<fstream>
 	<iomanip>
 	<iostream>
@@ -123,7 +123,8 @@
 	"init.cpp"
 	"editor.cpp"
 
-1660415200 /home/edward/.dots/work/etc/evct.git/global.hpp
+1660493632 /home/edward/.dots/work/etc/evct.git/global.hpp
+	<algorithm>
 	<string>
 	<unordered_map>
 	<vector>
@@ -134,7 +135,7 @@
 	<iostream>
 	<sys/ioctl.h>
 
-1660414661 /home/edward/.dots/work/etc/evct.git/editor.cpp
+1660486437 /home/edward/.dots/work/etc/evct.git/editor.cpp
 	<fstream>
 	<iomanip>
 	<iostream>

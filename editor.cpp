@@ -29,34 +29,34 @@
 
 #define $IS_SELECTED i == y_pos && j == x_pos
 
-#define $GO_UP() {              \
-        if (y_pos) {            \
-                --y_pos,        \
-                --y_lim;        \
-       	}                       \
-        if (y_lim < 0)          \
-                y_lim = 0;      \
-       	if (!y_lim && y_scr)    \
-                --y_scr;        \
+#define $GO_UP() {          \
+    if (y_pos)              \
+        --y_pos,            \
+        --y_lim;            \
+                            \
+    if (y_lim < 0)          \
+        y_lim = 0;          \
+    if (!y_lim && y_scr)    \
+        --y_scr;            \
 }
 
-#define $GO_DOWN() {            \
-        ++y_pos,                \
-	    ++y_lim;                \
-       	if (y_lim > rows)       \
-                y_lim = rows;   \
-       	if (y_lim == rows)      \
-       	        ++y_scr;        \
+#define $GO_DOWN() {        \
+    ++y_pos,                \
+    ++y_lim;                \
+    if (y_lim > rows)       \
+        y_lim = rows;       \
+    if (y_lim == rows)      \
+        ++y_scr;            \
 }
 
-#define $GO_RIGHT() {           \
-       	if (x_pos < x_len)      \
-                ++x_pos;        \
+#define $GO_RIGHT() {       \
+	if (x_pos < x_len)      \
+        ++x_pos;            \
 }
 
-#define $GO_LEFT()  {           \
-       	if (x_pos)              \
-                --x_pos;        \
+#define $GO_LEFT()  {       \
+    if (x_pos)              \
+        --x_pos;            \
 }
 
 /* getch() */
@@ -273,12 +273,10 @@ input(void)
 					x_pos = buffer[y_pos-1].length(); /* set new x_pos */
 					buffer[y_pos-1].insert(x_pos, buffer[y_pos]);
 
-					/* "remove" duplicate line */
-					buffer.erase(buffer.begin()+y_pos--);
-
-					/*** HIGHLIGHT #2 ***/
-					syntax.pop_back();
-					syntax_highlight(y_pos, --lines);
+					/** HIGHLIGHT #2 **/
+					  buffer.erase(buffer.begin()+y_pos);
+					//syntax.erase(syntax.begin()+y_pos);
+					  syntax_highlight(--y_pos, --lines);
 				}
 			} else if (keypress == $KEY_RETURN) {
 				 /************************/
@@ -299,10 +297,7 @@ input(void)
 				}
 				/*** HIGHLIGHT #3 ***/
 				syntax.emplace_back("");
-				syntax_highlight(y_pos, lines++);
-
-				/* goto next line */
-				++y_pos;
+				syntax_highlight(y_pos++, lines++);
 				x_pos = 0;
 			} else {
 				/*****************************/
@@ -426,7 +421,7 @@ fix_cursor(void)
 	/* cursor is still in buffer and outside of line length */
 	if (y_pos < rows-1 && x_pos > len)
 		x_pos = len;
-	else if (x_pos < 0)
+	if (x_pos < 0)
 		x_pos = 0;
 }
 

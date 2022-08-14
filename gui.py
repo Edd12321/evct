@@ -23,8 +23,13 @@ parser = argparse.ArgumentParser(description="evct gui wrapper",
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-x", "--x11dp",
                     type=str,
-                    help="X11 Display Number (default :0)",
+                    help="X11 Display Number",
                     default=":0")
+parser.add_argument("-t", "--vterm",
+                    type=str,
+                    help="Terminal with WinID support",
+                    default="xterm -into")
+
 args = parser.parse_args()
 
 statement_ran = 0
@@ -87,13 +92,13 @@ def new_tab(command, title):
     # open terminal inside tab
     try:
         # don't ask
-        command_str = f'xterm -into {str(win_id)}'\
+        command_str = f'{args.vterm} {str(win_id)}'\
                      +f' -geometry {str(vw)}x{str(vh)}'\
                      +f' -sb -e " echo -e \'\\e[4;{str(vh-55)};{str(vw)}t\';'\
                      +command+'" &'
 
     except FileNotFoundError:
-        tk.showwarning("Error", "xterm not installed !")
+        tk.showwarning("Error", f'{args.vterm} not available !')
 
     if sys.platform == "win32":
         subprocess.Popen("sh -c \"mount -a; export DISPLAY="+args.x11dp+";"+command_str+"\"",
