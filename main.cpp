@@ -17,6 +17,7 @@
 extern "C" {
   #include <stdlib.h>
   #include <unistd.h>
+  #include <signal.h>
 }
 #if defined(_WIN32)
   #include <conio.h>
@@ -31,6 +32,14 @@ extern "C" {
 
 /***** MACRO BEGIN *****/
 #define ever (;;)
+
+#define $CURSOR_HIDE() { \
+    cout << "\e[?25l";   \
+}
+
+#define $CURSOR_SHOW() { \
+    cout << "\e[?25h";   \
+}
 /***** MACRO END *****/
 
 /** global arg **/
@@ -52,6 +61,13 @@ ll rows;
 ll columns;
 ll lines;
 /** global vars end **/
+
+static inline void
+handle_sig(int sig)
+{
+	$CURSOR_SHOW();
+	exit(0);
+}
 
 static inline vector<string>
 stream2buf(istream& in)
@@ -118,6 +134,13 @@ main(int argc, char *argv[]) {
 	/** MAIN-LOOP **/
 
 	load_conf(argv[0]);   // editor.cpp
+
+
+	$CURSOR_HIDE();
+	
+	signal(SIGABRT , handle_sig);
+	signal(SIGINT  , handle_sig);
+	signal(SIGTERM , handle_sig);
 	for ever {
 		init_vars();      // init.cpp
 		rows -= 2;
@@ -133,6 +156,7 @@ main(int argc, char *argv[]) {
 
 		cls();            // editor.cpp
 	}
+	$CURSOR_SHOW();
 
 	return EXIT_SUCCESS;
 }

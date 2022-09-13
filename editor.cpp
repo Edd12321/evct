@@ -59,6 +59,14 @@
         --x_pos;            \
 }
 
+#define $CURSOR_HIDE() {    \
+    cout << "\e[?25l";      \
+}
+ 
+#define $CURSOR_SHOW() {    \
+    cout << "\e[?25h";      \
+}
+
 /* getch() */
 #if defined(_WIN32)
   #include <conio.h>
@@ -390,8 +398,10 @@ interpret(string str)
 			fout << buffer[i] << '\n';
 	}
 
-	if (str == ":wq" || str == ":q!")
+	if (str == ":wq" || str == ":q!") {
+		$CURSOR_SHOW();
 		exit(0);
+	}
 
 	/** If all else fails, parse words **/
 	vector<string> args;
