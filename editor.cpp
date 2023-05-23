@@ -392,6 +392,8 @@ input(void)
 inline void
 interpret(string str)
 {
+	if (str[0] == '#')
+		return;
 	if (str == ":w" || str == ":wq") {
 		ofstream fout(filename.c_str());
 		for (ll i = 0; i < lines; ++i)

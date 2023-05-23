@@ -95,6 +95,24 @@ cls(void)
 	cout << "\x1b[2J\x1b[H";
 }
 
+static inline void
+newbuf(int sig)
+{
+		init_vars();      // init.cpp
+		rows -= 2;
+
+
+		display_buffer(); // editor.cpp
+		statusbar();      // editor.cpp
+		cout << flush;
+
+		fix_cursor();    //editor.cpp
+		input();          //-"-
+		fix_cursor();     //-"-
+
+		cls();            // editor.cpp
+}
+
 int
 main(int argc, char *argv[]) {
 	/* use global arg instead */
@@ -141,21 +159,8 @@ main(int argc, char *argv[]) {
 	signal(SIGABRT , handle_sig);
 	signal(SIGINT  , handle_sig);
 	signal(SIGTERM , handle_sig);
-	for ever {
-		init_vars();      // init.cpp
-		rows -= 2;
-
-
-		display_buffer(); // editor.cpp
-		statusbar();      // editor.cpp
-		cout << flush;
-
-		fix_cursor();    //editor.cpp
-		input();          //-"-
-		fix_cursor();     //-"-
-
-		cls();            // editor.cpp
-	}
+	signal(SIGWINCH, newbuf);
+	for ever newbuf(0); 
 	$CURSOR_SHOW();
 
 	return EXIT_SUCCESS;

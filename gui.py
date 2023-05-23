@@ -94,18 +94,18 @@ def new_tab(command, title):
         # don't ask
         command_str = f'{args.vterm} {str(win_id)}'\
                      +f' -geometry {str(vw)}x{str(vh)}'\
-                     +f' -sb -e " echo -e \'\\e[4;{str(vh-55)};{str(vw)}t\';'\
+                     +f' -sb -e " echo -e \'\\e\\[4;{str(vh-55)};{str(vw)}t\';'\
                      +command+'" &'
 
     except FileNotFoundError:
         tk.showwarning("Error", f'{args.vterm} not available !')
 
+    os.environ["DISPLAY"] = args.x11dp
     if sys.platform == "win32":
-        subprocess.Popen("sh -c \"mount -a; export DISPLAY="+args.x11dp+";"+command_str+"\"",
+        subprocess.Popen("sh -c \"mount -a;"+command_str+"\"",
                          shell=1)
     else:
-        subprocess.Popen("export DISPLAY="+args.x11dp+";"+command_str,
-                         shell=1)
+        subprocess.Popen(command_str, shell=1)
 
 # do nothing
 def nop():
